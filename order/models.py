@@ -21,6 +21,11 @@ AREA_CHOICES = (
     ('INDIRA NAGAR','INDIRA NAGAR'),
 )
 
+DELIVERY_BOY_ORDER_STATUS_CHOICES = (
+    ('INCOMPLETE','INCOMPLETE'),
+    ('COMPLETED','COMPLETED'),
+)
+
 class BaseModel(models.Model):
     class Meta:
         abstract = True
@@ -36,11 +41,13 @@ class Order(BaseModel):
         """
             1. Add order information into firebase along with order items
             2. Add a new notification that an order has been placed 
+            TODO 3. If firebase entry exists, then update that entry 
         """
         lat = self.latlng.coords[1]
         lng = self.latlng.coords[0]
         items = [i.get_json() for i in self.orderitem_set.all()]
         data = {
+            'id':self.id,
             'lat':lat,
             'lng':lng,    
             'status':self.status,
@@ -78,3 +85,10 @@ class DeliveryBoy(BaseModel):
 class DeliveryBoyOrder(BaseModel):
     order_id = models.ForeignKey(Order)
     boy_no = models.ForeignKey(DeliveryBoy)
+    status = models.CharField(choices=DELIVERY_BOY_ORDER_STATUS_CHOICES,default='INCOMPLETE',max_length=20)
+    def save(self, *args, **kwargs):
+        """
+        1. Add this into firebase
+        TODO 
+        """
+        super(DeliveryBoyOrder,self).save(*args,**kwargs)
