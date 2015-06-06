@@ -10,3 +10,4 @@ target
 env
 activate
 *.sqlite3
+public/lib
