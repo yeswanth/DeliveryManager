@@ -8,4 +8,6 @@ DELIVERYBOY_URL = APP_URL + '/deliveryboy'
 def fb_add_data(url,data):
     fb = firebase.Firebase(url)
     return fb.push(data)
-    
+
+def fb_add_notification(message):
+    fb_add_data(NOTIFICATION_URL,message)    

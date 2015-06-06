@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.contrib.gis.db.models.fields
 
 
 class Migration(migrations.Migration):
@@ -40,9 +41,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('lat', models.CharField(max_length=20)),
-                ('lng', models.CharField(max_length=20)),
+                ('latlng', django.contrib.gis.db.models.fields.PointField(srid=4326)),
                 ('status', models.CharField(default=b'INIT', max_length=20, choices=[(b'INIT', b'INIT'), (b'UNASSIGNED', b'UNASSIGNED'), (b'ASSIGNED', b'ASSIGNED'), (b'COMPLETED', b'COMPLETED')])),
+                ('area', models.CharField(max_length=30, choices=[(b'BTM', b'BTM'), (b'KORAMANGALA', b'KORAMANGALA'), (b'INDIRA NAGAR', b'INDIRA NAGAR')])),
             ],
             options={
                 'abstract': False,

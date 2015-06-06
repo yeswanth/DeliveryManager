@@ -1,5 +1,6 @@
-from django.db import models
+from django.contrib.gis.db import models
 import order.utils as utils
+
 
 ORDER_STATUS = (
     ('INIT','INIT'),
@@ -27,19 +28,21 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class Order(BaseModel):
-    lat = models.CharField(max_length=20)
-    lng = models.CharField(max_length=20)
+    latlng = models.PointField()    
     status = models.CharField(choices=ORDER_STATUS,default='INIT',max_length=20)
     area = models.CharField(max_length=30,choices=AREA_CHOICES)
+    objects = models.GeoManager()
     def save(self, *args, **kwargs):
         """
             1. Add order information into firebase along with order items
             2. Add a new notification that an order has been placed 
         """
+        lat = self.latlng.coords[1]
+        lng = self.latlng.coords[0]
         items = [i.get_json() for i in self.orderitem_set.all()]
         data = {
-            'lat':self.lat,
-            'lng':self.lng,
+            'lat':lat,
+            'lng':lng,    
             'status':self.status,
             'area':self.area,
             'items':items
