@@ -65,6 +65,11 @@ class DeliveryBoy(BaseModel):
         """
             1. Add delivery boy information into firebase   
         """
+        data = {
+            'name':name,
+            'status':status
+        } 
+        utils.fb_add_data(utils.DELIVERYBOY_URL,data)
         super(DeliveryBoy,self).save(*args,**kwargs)
 
 class DeliveryBoyOrder(BaseModel):
