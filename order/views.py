@@ -36,4 +36,4 @@ def manager_dashboard(request):
     """
     This view will be shown to the manager 
     """
-    pass
+    return render_to_response('index.html')
