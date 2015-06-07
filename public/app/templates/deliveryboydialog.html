@@ -1,0 +1,19 @@
+<md-dialog>
+	<md-dialog-content>
+		<h3>Choose Delivery Boy</h3>
+		<md-radio-group ng-model="data.selectedBoy" class="md-primary">
+			<md-radio-button ng-repeat="boy in deliveryBoys" ng-value="boy.id">
+				{{boy.name}}
+			</md-radio-button>
+		</md-radio-group>
+	</md-dialog-content>
+	<div class="md-actions" layout="row">
+		<span flex></span>
+		<md-button ng-click="cancel()" class="md-primary">
+			Don't Assign
+		</md-button>
+		<md-button ng-click="assign()" class="md-primary">
+			Assign
+		</md-button>
+	</div>
+</md-dialog>

@@ -18,7 +18,7 @@
 			</md-toolbar>
 			<md-content style="height: 400px">
 				<md-list>
-					<md-list-item class="md-2-line" ng-repeat="order in orders">
+					<md-list-item class="md-2-line" ng-repeat="order in orders" ng-click="assignDeliveryBoy(order, $event)">
 						<!-- <md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon> -->
 						<div class="md-list-item-text">
 							<h3>{{order.area}}</h3>
@@ -38,10 +38,10 @@
 			</md-toolbar>
 			<md-content style="height: 400px">
 				<md-list>
-					<md-list-item class="md-2-line" ng-repeat="boys in deliveryBoys">
+					<md-list-item class="md-2-line" ng-repeat="boy in deliveryBoys">
 						<!-- <md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon> -->
 						<div class="md-list-item-text">
-							<h3>{{boys.name}}</h3>
+							<h3>{{boy.name}}</h3>
 						</div>
 					</md-list-item>
 				</md-list>
@@ -64,6 +64,7 @@
 	<!-- Controllers -->
 	<script src="app/controllers/order.js"></script>
 	<script src="app/controllers/delivery.js"></script>
+	<script src="app/controllers/deliveryboydialog.js"></script>
 
 	<!-- Services -->
 	<script src="app/services/fireback.js"></script>
