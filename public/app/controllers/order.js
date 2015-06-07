@@ -1,6 +1,6 @@
 angular.module('DeliveryApp')
 	.controller('OrderCtrl', ['$scope', 'Fireback', function($scope, Fireback){
-		var sampleData = [
+		/*var sampleData = [
 			{
 				"items": [
 					{
@@ -226,8 +226,20 @@ angular.module('DeliveryApp')
 				"lat": 2
 			}
 		];
-		$scope.orders = sampleData;
+		$scope.orders = sampleData;*/
 
-		var tempOrders = Fireback.getOrders();
+		$scope.orders = [];
+
+		$scope.$watchCollection(function() {
+			return Fireback.getOrders();
+		}, function(newVal, oldVal) {
+			if (typeof newVal !== 'undefined') {
+				tempOrders = Fireback.getOrders();
+				$scope.orders = [];
+				angular.forEach(tempOrders, function(value, key) {
+					$scope.orders.push(value);
+				});
+			}
+		});
 		
 	}]);

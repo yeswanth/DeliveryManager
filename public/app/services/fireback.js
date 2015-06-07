@@ -1,10 +1,10 @@
 angular.module('DeliveryApp')
-	.factory('Fireback', ['$firebaseObject', function($firebaseObject) {
+	.factory('Fireback', ['$firebaseObject', function($firebaseArray) {
 		var ordersRef = new Firebase("https://delivery-manager.firebaseio.com/orders");
-		var deliveryBoysRef = new Firebase("https://delivery-manager.firebaseio.com/deliveryboys");
+		var deliveryBoysRef = new Firebase("https://delivery-manager.firebaseio.com/deliveryboy");
 
-		var orders = $firebaseObject(ordersRef);
-		var deliveryBoys = $firebaseObject(deliveryBoysRef);
+		var orders = $firebaseArray(ordersRef);
+		var deliveryBoys = $firebaseArray(deliveryBoysRef);
 
 		return {
 			getOrders: function() {

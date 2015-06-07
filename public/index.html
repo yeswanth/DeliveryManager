@@ -19,7 +19,7 @@
 			<md-content style="height: 400px">
 				<md-list>
 					<md-list-item class="md-2-line" ng-repeat="order in orders">
-						<md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon>
+						<!-- <md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon> -->
 						<div class="md-list-item-text">
 							<h3>{{order.area}}</h3>
 							<p>{{order.items | orderstring}}</p>
@@ -28,19 +28,24 @@
 				</md-list>
 			</md-content>
 		</div>
-		<div flex="30" layout-padding>
-			<div controller="DeliveryBoysCtrl">
-				<md-toolbar>
-					<div class="md-toolbar-tools">
-						<h3>
-							<span>Delivery Dudes</span>
-						</h3>
-					</div>
-				</md-toolbar>
-				<md-content style="height: 400px">
-
-				</md-content>
-			</div>
+		<div flex="30" ng-controller="DeliveryBoysCtrl" layout-padding>
+			<md-toolbar>
+				<div class="md-toolbar-tools">
+					<h3>
+						<span>Delivery Dudes</span>
+					</h3>
+				</div>
+			</md-toolbar>
+			<md-content style="height: 400px">
+				<md-list>
+					<md-list-item class="md-2-line" ng-repeat="boys in deliveryBoys">
+						<!-- <md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon> -->
+						<div class="md-list-item-text">
+							<h3>{{boys.name}}</h3>
+						</div>
+					</md-list-item>
+				</md-list>
+			</md-content>
 		</div>
 		<div flex="" layout-padding></div>
 	</div>
