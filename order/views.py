@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response,redirect
 
 def assign_delivery_boy(request,order_id,boy_id):
     """
@@ -30,7 +30,7 @@ def customer_order(request):
         i. save order
         ii. send notification 
     """
-    pass
+    return render_to_response('customer_order.html')
 
 def manager_dashboard(request):
     """

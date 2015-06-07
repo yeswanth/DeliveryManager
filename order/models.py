@@ -36,7 +36,9 @@ class Order(BaseModel):
     latlng = models.PointField()    
     status = models.CharField(choices=ORDER_STATUS,default='INIT',max_length=20)
     area = models.CharField(max_length=30,choices=AREA_CHOICES)
+    fb_key = models.CharField(max_length=30,null=True,blank=True)
     objects = models.GeoManager()
+    
     def save(self, *args, **kwargs):
         """
             1. Add order information into firebase along with order items
@@ -45,16 +47,15 @@ class Order(BaseModel):
         """
         lat = self.latlng.coords[1]
         lng = self.latlng.coords[0]
-        items = [i.get_json() for i in self.orderitem_set.all()]
+        #items = [i.get_json() for i in self.orderitem_set.all()]
         data = {
             'id':self.id,
             'lat':lat,
             'lng':lng,    
             'status':self.status,
             'area':self.area,
-            'items':items
         }
-        utils.fb_add_data(utils.ORDERS_URL,data)
+        self.fb_key = utils.fb_add_data(utils.ORDERS_URL,data)['name']
         super(Order, self).save(*args,**kwargs)
 
 
@@ -67,6 +68,12 @@ class OrderItem(BaseModel):
             'name':self.name,
             'quantity':self.quantity
         }
+    def save(self, *args, **kwargs):
+        data = {'name':self.name,
+                'quantity':self.quantity} 
+        utils.fb_add_data(utils.ORDERS_URL+'/'+self.order_id.fb_key+'/items', data)
+        super(OrderItem,self).save(*args,**kwargs)
+    
 
 class DeliveryBoy(BaseModel): 
     name = models.CharField(max_length=100)
@@ -76,8 +83,8 @@ class DeliveryBoy(BaseModel):
             1. Add delivery boy information into firebase   
         """
         data = {
-            'name':name,
-            'status':status
+            'name':self.name,
+            'status':self.status
         } 
         utils.fb_add_data(utils.DELIVERYBOY_URL,data)
         super(DeliveryBoy,self).save(*args,**kwargs)
