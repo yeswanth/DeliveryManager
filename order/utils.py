@@ -9,6 +9,10 @@ def fb_add_data(url,data):
     fb = firebase.Firebase(url)
     return fb.push(data)
 
+def fb_set_data(url,key,data):
+    fb = firebase.Firebase(url+'/'+key)
+    return fb.set(data)
+
 def fb_add_notification(message):
     fb_add_data(NOTIFICATION_URL,message)    
 

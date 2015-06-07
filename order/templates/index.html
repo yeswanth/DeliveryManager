@@ -38,9 +38,15 @@
 						</h3>
 					</div>
 				</md-toolbar>
-				<md-content style="height: 400px">
-
-				</md-content>
+                       <md-content style="height: 400px">
+                                <md-list>
+                                        <md-list-item class="md-2-line" ng-repeat="boys in deliveryBoys">   
+                                                <div class="md-list-item-text">
+                                                        <h3>{$ boys.name $}</h3>
+                                                </div>
+                                        </md-list-item>
+                                </md-list>
+                        </md-content>
 			</div>
 		</div>
 		<div flex="" layout-padding></div>

@@ -45,18 +45,34 @@ class Order(BaseModel):
             2. Add a new notification that an order has been placed 
             TODO 3. If firebase entry exists, then update that entry 
         """
-        lat = self.latlng.coords[1]
-        lng = self.latlng.coords[0]
-        #items = [i.get_json() for i in self.orderitem_set.all()]
-        data = {
-            'id':self.id,
-            'lat':lat,
-            'lng':lng,    
-            'status':self.status,
-            'area':self.area,
-        }
-        self.fb_key = utils.fb_add_data(utils.ORDERS_URL,data)['name']
-        super(Order, self).save(*args,**kwargs)
+        if not self.fb_key:
+            lat = self.latlng.coords[1]
+            lng = self.latlng.coords[0]
+            #items = [i.get_json() for i in self.orderitem_set.all()]
+            data = {
+                'id':self.id,
+                'lat':lat,
+                'lng':lng,    
+                'status':self.status,
+                'area':self.area,
+            }
+            self.fb_key = utils.fb_add_data(utils.ORDERS_URL,data)['name']
+        else:
+            print self.fb_key
+            lat = self.latlng.coords[1]
+            lng = self.latlng.coords[0]
+            items = [i.get_json() for i in self.orderitem_set.all()]
+            data = {
+                'id':self.id,
+                'lat':lat,
+                'lng':lng,    
+                'status':self.status,
+                'area':self.area,
+                'items':items,
+            }
+            items = [i.get_json() for i in self.orderitem_set.all()]
+            utils.fb_set_data(utils.ORDERS_URL,self.fb_key,data)
+        super(Order,self).save(*args,**kwargs)
 
 
 class OrderItem(BaseModel):
@@ -69,10 +85,11 @@ class OrderItem(BaseModel):
             'quantity':self.quantity
         }
     def save(self, *args, **kwargs):
-        data = {'name':self.name,
-                'quantity':self.quantity} 
-        utils.fb_add_data(utils.ORDERS_URL+'/'+self.order_id.fb_key+'/items', data)
         super(OrderItem,self).save(*args,**kwargs)
+        data = {'name':self.name,
+                'quantity':self.quantity,
+                'id':self.id} 
+        utils.fb_add_data(utils.ORDERS_URL+'/'+self.order_id.fb_key+'/items', data)
     
 
 class DeliveryBoy(BaseModel): 
@@ -93,9 +110,3 @@ class DeliveryBoyOrder(BaseModel):
     order_id = models.ForeignKey(Order)
     boy_no = models.ForeignKey(DeliveryBoy)
     status = models.CharField(choices=DELIVERY_BOY_ORDER_STATUS_CHOICES,default='INCOMPLETE',max_length=20)
-    def save(self, *args, **kwargs):
-        """
-        1. Add this into firebase
-        TODO 
-        """
-        super(DeliveryBoyOrder,self).save(*args,**kwargs)

@@ -1,10 +1,20 @@
 from django.shortcuts import render,render_to_response,redirect
+from django.http import HttpResponse
+from .models import DeliveryBoyOrder,DeliveryBoy,Order
 
 def assign_delivery_boy(request,order_id,boy_id):
     """
     1. Add entry DeliveryBoyOrder 
-    TODO 
+    2. Update 
     """
+    order = Order.objects.get(pk=order_id)
+    order.status = 'ASSIGNED'
+    order.save()
+    boy = DeliveryBoy.objects.get(pk=boy_id) 
+    boy.status = 'WAITING'
+    boy.save()
+    dbo = DeliveryBoyOrder(order_id=order,boy_no=boy)
+    dbo.save() 
     return HttpResponse('Success')
 
 def update_delivery_boy_status(request,boy_id,status):
