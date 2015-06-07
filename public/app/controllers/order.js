@@ -1,5 +1,5 @@
 angular.module('DeliveryApp')
-	.controller('OrderCtrl', ['$scope', function($scope){
+	.controller('OrderCtrl', ['$scope', 'Fireback', function($scope, Fireback){
 		var sampleData = [
 			{
 				"items": [
@@ -227,4 +227,7 @@ angular.module('DeliveryApp')
 			}
 		];
 		$scope.orders = sampleData;
+
+		var tempOrders = Fireback.getOrders();
+		
 	}]);
