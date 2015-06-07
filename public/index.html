@@ -5,6 +5,7 @@
 	<title>Delivery App Thingy</title>
 
 	<link rel="stylesheet" href="lib/angular-material/angular-material.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app="DeliveryApp">
 	<div layout="row" layout-wrap>
@@ -20,10 +21,11 @@
 				<md-list>
 					<md-list-item class="md-2-line" ng-repeat="order in orders" ng-click="assignDeliveryBoy(order, $event)">
 						<!-- <md-icon md-svg-icon="MaterialDesignIcons:alarm"></md-icon> -->
-						<div class="md-list-item-text">
+						<div class="md-list-item-text" ng-class="{unassigned: order.selectedBoy==''}">
 							<h3>{{order.area}}</h3>
 							<p>{{order.items | orderstring}}</p>
 						</div>
+						<h3 class="md-secondary">{{ order.selectedBoy }}</h3>
 					</md-list-item>
 				</md-list>
 			</md-content>

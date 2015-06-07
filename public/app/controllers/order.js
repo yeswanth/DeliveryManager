@@ -9,6 +9,7 @@ angular.module('DeliveryApp')
 				tempOrders = Fireback.getOrders();
 				$scope.orders = [];
 				angular.forEach(tempOrders, function(value, key) {
+					value.selectedBoy = '';
 					$scope.orders.push(value);
 				});
 			}
@@ -22,7 +23,7 @@ angular.module('DeliveryApp')
 				templateUrl: 'app/templates/deliveryboydialog.html',
 				targetEvent: ev
 			}).then(function(selectedBoy) {
-				console.log(selectedBoy);
+				order.selectedBoy = selectedBoy;
 			});
 		};
 	}]);
